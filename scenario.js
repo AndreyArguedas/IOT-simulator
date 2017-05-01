@@ -1,18 +1,31 @@
 function Scenario(){
 	this.level = 1;
 	this.show = function(x,v){
-		//console.log(x);
 		if(this.level === 1 ){
 			image(city1, -x * v * 2,0,4267,650); //Se dibuja el fondo
 		}
-		else{
-			image(city2,-x * v * 2,0,2080,650); //Se dibuja el fondo
+		else if(this.level === 2){
+			image(city2,-x * v * 1.5,0,2080,650); //Se dibuja el fondo
+		}
+		else if(this.level === 3){
+			image(city3,-x * v * 2,0,2778,650); //Se dibuja el fondo
+		}
+		else if(this.level === 4){
+			image(city4,-x * v * 2,0,700,650); //Se dibuja el fondo
 		}
 	}
 
 	this.update = function(car){
-		if(car.x > 828){
+		if(car.x > 828 && this.level === 1){
 			this.level = 2;
+			car.x = 0;
+		}
+		else if(car.x > 382 && this.level === 2){
+			this.level = 3;
+			car.x = 0;
+		}
+		else if(car.x > 450 && this.level === 3){
+			this.level = 4;
 			car.x = 0;
 		}
 	}
