@@ -5,13 +5,10 @@ function Scenario(){
 			image(city1, -x * v * 2,0,4267,650); //Se dibuja el fondo
 		}
 		else if(this.level === 2){
-			image(city2,-x * v * 1.5,0,2080,650); //Se dibuja el fondo
+			image(city2,-x * v * 2,0,2080,650); //Se dibuja el fondo
 		}
 		else if(this.level === 3){
 			image(city3,-x * v * 2,0,2778,650); //Se dibuja el fondo
-		}
-		else if(this.level === 4){
-			image(city4,-x * v * 2,0,700,650); //Se dibuja el fondo
 		}
 	}
 
@@ -22,10 +19,6 @@ function Scenario(){
 		}
 		else if(car.x > 382 && this.level === 2){
 			this.level = 3;
-			car.x = 0;
-		}
-		else if(car.x > 450 && this.level === 3){
-			this.level = 4;
 			car.x = 0;
 		}
 	}

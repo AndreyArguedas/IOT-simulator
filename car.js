@@ -7,8 +7,12 @@ function Car(x,y){
 	this.move = function(d){ //d es la direcion
 		if(d === 1)
 			this.x += this.velocity;
-		else
+		else if(d === 2)
 			this.x -= this.velocity;
+		else if(d === 3)
+			this.y -= this.velocity;
+		else if(d === 4)
+			this.y += this.velocity;
 	}
 
 	this.show = function(){
