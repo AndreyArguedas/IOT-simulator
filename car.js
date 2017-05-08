@@ -14,9 +14,10 @@ function Car(x,y){
 		else if(d === 4)
 			this.y += this.velocity;
 	}
-
+	
 	this.show = function(){
         image(carImg,128 * this.frame++,96*2 ,128,96,this.x,this.y,128,96);
         this.frame = (this.frame === 3)?0:this.frame;
     }
+	
 }

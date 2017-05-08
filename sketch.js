@@ -6,6 +6,7 @@ var car;
 var scenario;
 var peaton1Img;
 var p1;
+var a1;
 
 function preload(){
   city1 = loadImage("images/city1.jpg");
@@ -21,6 +22,7 @@ function setup(){
 	car = new Car(0,650-96);
 	scenario = new Scenario();
   p1 = new Peaton(1000,600,0.5);
+  a1 = new Alerta();
   background(255);
 }
 
@@ -28,6 +30,7 @@ function draw(){ //Esto es un while que dibuja en pantalla cada 60 milisegundos,
 	
 	scenario.show(car.x,car.velocity);
 	car.show();
+	ocultarModal("myMessage");
   if(scenario.level === 2 && p1.alive === true){
     p1.show(car.x,car.velocity);
     p1.move();
@@ -35,9 +38,14 @@ function draw(){ //Esto es un while que dibuja en pantalla cada 60 milisegundos,
       p1.alive = false;
       mostrarModal("myModal", "Ha ocurrido un accidente", "Mediante el sensor de choques de su automovil se ha detectado una colision, mediante la computadora de su auto se ha alertado al 911, los cuales llegaran enseguida");
       //$("#myModal").modal("hide");
-
     }
   }
+	if(a1.publucity(car)){
+		if(scenario.level==1){
+			a1.show("Usted esta a 200 metros del hotel California", 500-(car.x)*2, 30);
+			scenario.update(car);
+		}
+	}
     
 	if(keyIsDown(RIGHT_ARROW))
   	 car.move(1);
@@ -47,7 +55,6 @@ function draw(){ //Esto es un while que dibuja en pantalla cada 60 milisegundos,
     car.move(3);
   if(keyIsDown(DOWN_ARROW))
     car.move(4);
-
   
   	scenario.update(car);
   	//console.log(car.x);
@@ -68,3 +75,10 @@ function mostrarModal(idDiv ,titulo, mensaje){
      $("#"+idDiv+"Title").html(titulo);
      $("#"+idDiv+"Message").html(mensaje);
  }
+ 
+ /*function mostrarMensaje(mensaje){
+	// $("#"+idDiv+"Message").html(mensaje);
+     //$("#"+idDiv).modal("hide");
+	text(mensaje, 10, 30);
+ 
+ }*/
