@@ -18,7 +18,8 @@ function preload(){
 }
 
 function setup(){
-	createCanvas(1000,650);//Se crea una pantalla de 700x700
+	var can = createCanvas(1000,650);//Se crea una pantalla de 700x700
+  can.parent('screen');
 	car = new Car(0,650-96);
 	scenario = new Scenario();
   p1 = new Peaton(1000,600,0.5);
@@ -37,15 +38,16 @@ function draw(){ //Esto es un while que dibuja en pantalla cada 60 milisegundos,
     if(p1.colission(car)){
       p1.alive = false;
       mostrarModal("myModal", "Ha ocurrido un accidente", "Mediante el sensor de choques de su automovil se ha detectado una colision, mediante la computadora de su auto se ha alertado al 911, los cuales llegaran enseguida");
-      //$("#myModal").modal("hide");
     }
   }
-	if(a1.publucity(car)){
+	/*if(a1.publucity(car,scenario)){
 		if(scenario.level==1){
-			a1.show("Usted esta a 200 metros del hotel California", 500-(car.x)*2, 30);
-			scenario.update(car);
+			a1.show("Usted esta a 200 metros del hotel California", 250-(car.x)*2, 30);
+      $("tbody").append("<tr><td>Usted esta a 200 metros del hotel California</td></tr>");
 		}
-	}
+	}*/
+
+  a1.publucity(car,scenario);//La clase se encarga internamente de mostrar la publicidad
     
 	if(keyIsDown(RIGHT_ARROW))
   	 car.move(1);
@@ -76,9 +78,3 @@ function mostrarModal(idDiv ,titulo, mensaje){
      $("#"+idDiv+"Message").html(mensaje);
  }
  
- /*function mostrarMensaje(mensaje){
-	// $("#"+idDiv+"Message").html(mensaje);
-     //$("#"+idDiv).modal("hide");
-	text(mensaje, 10, 30);
- 
- }*/
