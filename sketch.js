@@ -7,6 +7,8 @@ var scenario;
 var peaton1Img;
 var p1;
 var a1;
+var ambulanceImg;
+var ambulance;
 
 function preload(){
   city1 = loadImage("images/city1.jpg");
@@ -15,6 +17,7 @@ function preload(){
   city4 = loadImage("images/city6.jpg");
   carImg = loadImage("images/car.png");
   peaton1Img = loadImage("images/peaton.png");
+  ambulanceImg = loadImage("images/ambulancia.png");
 }
 
 function setup(){
@@ -24,6 +27,7 @@ function setup(){
 	scenario = new Scenario();
   p1 = new Peaton(1000,600,0.5);
   a1 = new Alerta();
+  ambulance = new Ambulance(0,650-90);
   background(255);
 }
 
@@ -35,9 +39,12 @@ function draw(){ //Esto es un while que dibuja en pantalla cada 60 milisegundos,
   if(scenario.level === 2 && p1.alive === true){
     p1.show(car.x,car.velocity);
     p1.move();
+    a1.distPeaton(Math.floor(dist(p1.x,p1.y,car.x,car.y)) / 100);
     if(p1.colission(car)){
-      p1.alive = false;
-      mostrarModal("myModal", "Ha ocurrido un accidente", "Mediante el sensor de choques de su automovil se ha detectado una colision, mediante la computadora de su auto se ha alertado al 911, los cuales llegaran enseguida");
+      p1.x += 150;
+      p1.canMove = false;
+      car.canMove = false;
+      mostrarModal("myModal", "Ha ocurrido un accidente", "Mediante el sensor de choques de su automovil se ha detectado una colision, mediante la computadora de su auto se ha alertado al 911, los cuales llegaran enseguida." + "<br>" + "<img src='images/ambulancia.png'></img>");
     }
   }
 	
@@ -53,7 +60,13 @@ function draw(){ //Esto es un while que dibuja en pantalla cada 60 milisegundos,
     car.move(4);
   
   	scenario.update(car);
-  	//console.log(car.x);
+  	
+    if(car.canMove === false){ //Si el carro no se puede mover
+        ambulance.move(car); //La ambulancia se mueve en direccion al accidente
+        ambulance.show();    //Se muestra la ambulancia
+        if(ambulance.x >= p1.x)//Si la ambulancia llega al peaton lo dejamos de mostrar
+          p1.alive = false;
+    }
 }
 
 

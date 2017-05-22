@@ -3,16 +3,18 @@ function Car(x,y){
 	this.y = y;
 	this.velocity = 2; //Cada segundo avanza 16 pixeles
 	this.frame = 0; //La imagen que esta usando en un momento
-
+	this.canMove = true;
 	this.move = function(d){ //d es la direcion
-		if(d === 1)
-			this.x += this.velocity;
-		else if(d === 2)
-			this.x -= this.velocity;
-		else if(d === 3)
-			this.y -= this.velocity;
-		else if(d === 4)
-			this.y += this.velocity;
+		if(this.canMove === true){
+			if(d === 1)
+				this.x += this.velocity;
+			else if(d === 2)
+				this.x -= this.velocity;
+			else if(d === 3)
+				this.y -= this.velocity;
+			else if(d === 4)
+				this.y += this.velocity;
+		}
 	}
 	
 	this.show = function(){

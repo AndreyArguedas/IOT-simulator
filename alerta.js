@@ -28,6 +28,14 @@ function Alerta(){
 			$("tbody").append("<tr><td>IGLESIA EL BAUTISMO,CONFESIONES DE LUNES A VIERNES</td></tr>");
 			this.msj4 = true;
 		}
+	}
+
+	this.distPeaton = function(distancia){
+		if($("#alertDistance").length === 0)
+			$("#alertDistance").val("<td>ADVERTENCIA!!! USTED ESTA A " + distancia + " metros de un peaton.</td>")
+		else
+			$("tbody").append("<tr id='alertDistance'><td>ADVERTENCIA!!! USTED ESTA A " + distancia + " metros de un peaton.</td></tr>");
+
 	}	
 	
 }
