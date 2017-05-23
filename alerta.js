@@ -31,10 +31,12 @@ function Alerta(){
 	}
 
 	this.distPeaton = function(distancia){
-		if($("#alertDistance").length === 0)
-			$("#alertDistance").val("<td>ADVERTENCIA!!! USTED ESTA A " + distancia + " metros de un peaton.</td>")
+		if($("#alertDistance").length){ //Si ya existe el espacio alert distance
+			$("#alertDistance").css("background-color", "red");
+			$("#alertDistance").html("<td>ADVERTENCIA!!! USTED ESTA A " + distancia + " METROS DE UN PEATON.</td>");			
+		}
 		else
-			$("tbody").append("<tr id='alertDistance'><td>ADVERTENCIA!!! USTED ESTA A " + distancia + " metros de un peaton.</td></tr>");
+			$("tbody").append("<tr id='alertDistance'><td>ADVERTENCIA!!! USTED ESTA A " + distancia + " METROS DE UN PEATON.</td></tr>");
 
 	}	
 	
