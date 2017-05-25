@@ -54,7 +54,7 @@ function draw(){ //Esto es un while que dibuja en pantalla cada 60 milisegundos,
   }
 	ocultarModal("myMessage");
   if(scenario.level === 3 && car.x>150 && car.x<154){
-    if(car.velocity===3){
+    if(car.velocity===4){
       mostrarModal("myModal",  "Has cometido una infraccion", "El sensor de informes de transito indica que usted ha recibido una infraccion por exceder el limite de velocidad en esta zona" + "<br>" + "<img src='images/signal1.jpg'></img>");
     }
 	
@@ -70,12 +70,17 @@ function draw(){ //Esto es un while que dibuja en pantalla cada 60 milisegundos,
     car.move(3);
   if(keyIsDown(DOWN_ARROW))
     car.move(4);
-	keyPressed();
-  	scenario.update(car);
-  	
+  if(keyIsDown(32))
+    car.velocity = 4;
+  else
+    car.velocity = 2;
+  
+  scenario.update(car);
+  textSize(32);
+  text(parseInt(car.velocity * 20) + "KPH", 10, 30);
     if(car.canMove === false){ //Si el carro no se puede mover
         ambulance.move(car);		//La ambulancia se mueve en direccion al accidente
-		ambulance.y = p1.y;
+		    ambulance.y = p1.y;
         ambulance.show();    //Se muestra la ambulancia
         if(ambulance.x >= p1.x)//Si la ambulancia llega al peaton lo dejamos de mostrar
           p1.alive = false;
@@ -97,14 +102,14 @@ function mostrarModal(idDiv ,titulo, mensaje){
      $("#"+idDiv+"Message").html(mensaje);
  }
  
- function keyPressed()  {
+ /*function keyPressed()  {
   if (keyCode === 32) {
 	car.velocity = 3;
   }
   if(keyCode === 17){
 	car.velocity = 1;  
   } 
- }
+ }*/
  
  
  
