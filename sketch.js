@@ -13,8 +13,13 @@ var ambulanceImg;
 var ambulance;
 var police;
 var policeImg;
+var gasolinaImg;
+var gasolina;
 var informe=false;
 var infraccion=false;
+var colisionP1 = false;
+var showconfirmGas = false;
+var gasPlease = false;
 
 function preload(){
   city1 = loadImage("images/city1.jpg");
@@ -27,6 +32,7 @@ function preload(){
   peaton1Img = loadImage("images/peaton.png");
   ambulanceImg = loadImage("images/ambulance.png");
   policeImg = loadImage("images/police.jpg");
+  gasolinaImg = loadImage("images/gasolina.png");
 }
 
 function setup(){
@@ -38,6 +44,7 @@ function setup(){
   a1 = new Alerta();
   ambulance = new Ambulance(0,650-90);
   police = new Police(0,650-90);
+  gasolina = new Gasolinera(0,650-90);
   background(255);
 }
 
@@ -54,6 +61,7 @@ function draw(){ //Esto es un while que dibuja en pantalla cada 60 milisegundos,
       p1.x += 150;
       p1.canMove = false;
       car.canMove = false;
+      colisionP1 = true; //Ponemos la variable de que choco al peaton en true
       mostrarModal("myModal", "Ha ocurrido un accidente", "Mediante el sensor de choques de su automovil se ha detectado una colision, mediante la computadora de su auto se ha alertado al 911, los cuales llegaran enseguida." + "<br>" + "<img src='images/ambulancia.png'></img>");
     }
 	
@@ -93,14 +101,46 @@ function draw(){ //Esto es un while que dibuja en pantalla cada 60 milisegundos,
 	
   	scenario.update(car);
   	textSize(32);
+    fill(255,0,0);
     text(parseInt(car.velocity * 20) + "KPH", 10, 30);
-	if(car.canMove === false){ //Si el carro no se puede mover
-        ambulance.move(car);		//La ambulancia se mueve en direccion al accidente
-		ambulance.y = p1.y;
+    text("GASOLINA " + car.gas + " mililitros" , 600, 30);
+	if(colisionP1 === true){ //Si el carro no se puede mover
+        ambulance.move(car,colisionP1);		//La ambulancia se mueve en direccion al accidente
+		    ambulance.y = p1.y;
         ambulance.show();    //Se muestra la ambulancia
         if(ambulance.x >= p1.x)//Si la ambulancia llega al peaton lo dejamos de mostrar
           p1.alive = false;
     }
+
+  if(car.gas <= 0 ){
+      car.gas = 0;
+      car.canMove = false;
+      gasolina.free = false;
+      if(showconfirmGas === false){
+        showconfirmGas = true; //Poner inmediatamente en true para que se muestre solo una vez
+        bootbox.confirm({
+        message: "Has quedado sin gasolina, deseas que tu gasolinera preferida te rescate?",
+        buttons: {
+            confirm: {
+                label: 'SÍ,NECESITO AYUDA',
+                className: 'btn-success'
+            },
+            cancel: {
+                label: 'NO,GRACIAS',
+                className: 'btn-danger'
+            }
+        },
+        callback: function (result) {
+            gasPlease = result;
+        }
+    });
+      }
+  }
+
+  if(gasolina.free === false && gasPlease === true){
+    gasolina.move(car);
+    gasolina.show();
+  }
 	
 	if(infraccion===true){
 		police.move(car);
@@ -123,14 +163,6 @@ function mostrarModal(idDiv ,titulo, mensaje){
      $("#"+idDiv+"Message").html(mensaje);
  }
  
- /*function keyPressed()  {
-  if (keyCode === 32) {
-	car.velocity = 3;
-  }
-  if(keyCode === 17){
-	car.velocity = 1;  
-  } 
- }*/
  
  
  

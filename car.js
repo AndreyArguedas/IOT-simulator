@@ -1,12 +1,14 @@
 function Car(x,y){
 	this.x = x;
 	this.y = y;
+	this.gas = 1000;
 	this.velocity = 1; //Cada segundo avanza 16 pixeles
 	this.frame = 0; //La imagen que esta usando en un momento
 	this.canMove = true;
 	this.tire=6;
 	this.move = function(d){ //d es la direcion
 		if(this.canMove === true){
+			this.gas -= this.velocity; //Si se puede mover se le va gastando la gasolina
 			if(d === 1)
 				this.x += this.velocity;
 			else if(d === 2 && this.x>-1)

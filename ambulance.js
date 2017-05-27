@@ -2,11 +2,13 @@ function Ambulance(x,y){
 	this.x = x;
 	this.y = y;
 	this.velocity = 2; 
-	this.move = function(car){ //d es la direcion
+	this.move = function(car,colision){ //d es la direcion
 		if(this.x <= width) //Si el x es menor al ancho de la pantalla la ambulancia sigue avanzando
 			this.x += this.velocity;
-		else
+		else{
 			car.canMove = true;
+			colision = false;
+		}
 	}
 	
 	this.show = function(){
