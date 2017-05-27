@@ -3,6 +3,7 @@ var city2;
 var city3;
 var city5;
 var city6;
+var city7;
 var carImg;
 var car;
 var scenario;
@@ -20,6 +21,8 @@ var infraccion=false;
 var colisionP1 = false;
 var showconfirmGas = false;
 var gasPlease = false;
+var parkingImg;
+var parking;
 
 function preload(){
   city1 = loadImage("images/city1.jpg");
@@ -28,11 +31,13 @@ function preload(){
   city4 = loadImage("images/city6.jpg");
   city5 = loadImage("images/city13.jpg");
   city6 = loadImage("images/city8.jpg");
+  city7 = loadImage("images/city7.jpg");
   carImg = loadImage("images/car.png");
   peaton1Img = loadImage("images/peaton.png");
   ambulanceImg = loadImage("images/ambulance.png");
   policeImg = loadImage("images/police.jpg");
   gasolinaImg = loadImage("images/gasolina.png");
+  parkinImg = loadImage("images/parking.png");
 }
 
 function setup(){
@@ -45,6 +50,7 @@ function setup(){
   ambulance = new Ambulance(0,650-90);
   police = new Police(0,650-90);
   gasolina = new Gasolinera(0,650-90);
+  parking = new Parking(2500,500);
   background(255);
 }
 
@@ -146,6 +152,14 @@ function draw(){ //Esto es un while que dibuja en pantalla cada 60 milisegundos,
 		police.move(car);
 		police.show();
 	}
+
+  if(scenario.level === 6){
+    parking.show(car);
+    var d = dist(parking.x,parking.y,car.x,car.y);
+    a1.distParking(Math.floor(d) / 100);
+    if((Math.floor(d) / 100) < 0.7)
+      car.canMove = false;
+  }
 }
 
 function mostrarModal(idDiv ,titulo, mensaje){

@@ -38,6 +38,15 @@ function Alerta(){
 		else
 			$("tbody").append("<tr id='alertDistance'><td>ADVERTENCIA!!! USTED ESTA A " + distancia + " METROS DE UN PEATON.</td></tr>");
 
+	}
+
+	this.distParking = function(d){
+		if($("#alertDistance").length){ //Si ya existe el espacio alert distance
+			$("#alertDistance").css("background-color", "yellow");
+			$("#alertDistance").html("<td>AVISO!!! USTED ESTA A " + d+ " METROS DE UNA ZONA DE PARQUEO.</td>");			
+		}
+		else
+			$("tbody").append("<tr id='alertDistance'><td>AVISO!!! USTED ESTA A " + d + " METROS DE UNA ZONA DE PARQUEO.</td></tr>");
 	}	
 	
 }

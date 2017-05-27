@@ -16,6 +16,9 @@ function Scenario(){
 		else if(this.level === 5){
 			image(city6,-x * 2 * 2,0,4268,650); //Se dibuja el fondo
 		}
+		else if(this.level === 6){
+			image(city7,-x * 2 * 2,0,4222,650); //Se dibuja el fondo
+		}
 	}
 
 	this.update = function(car){
@@ -24,11 +27,11 @@ function Scenario(){
 			car.x = 0;
 			car.tire--;
 		}
-		else if(car.x > 382 && this.level === 2){
+		else if(car.x > 350 && this.level === 2){
 			this.level = 3;
 			car.x = 0;
 		}
-		else if(car.x > 382 && this.level === 3){
+		else if(car.x > 500 && this.level === 3){
 			this.level = 4;
 			car.x = 0;
 		}
@@ -37,7 +40,7 @@ function Scenario(){
 			car.x = 0;
 		}
 		else if(car.x > 828 && this.level === 5){
-			this.level = 1;
+			this.level = 6;
 			car.x = 0;
 		}
 		
