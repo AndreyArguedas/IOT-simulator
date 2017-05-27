@@ -22,6 +22,7 @@ function Scenario(){
 		if(car.x > 828 && this.level === 1){
 			this.level = 2;
 			car.x = 0;
+			car.tire--;
 		}
 		else if(car.x > 382 && this.level === 2){
 			this.level = 3;

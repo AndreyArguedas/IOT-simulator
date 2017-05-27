@@ -11,6 +11,10 @@ var p1;
 var a1;
 var ambulanceImg;
 var ambulance;
+var police;
+var policeImg;
+var informe=false;
+var infraccion=false;
 
 function preload(){
   city1 = loadImage("images/city1.jpg");
@@ -21,7 +25,8 @@ function preload(){
   city6 = loadImage("images/city8.jpg");
   carImg = loadImage("images/car.png");
   peaton1Img = loadImage("images/peaton.png");
-  ambulanceImg = loadImage("images/ambulancia.png");
+  ambulanceImg = loadImage("images/ambulance.png");
+  policeImg = loadImage("images/police.jpg");
 }
 
 function setup(){
@@ -32,6 +37,7 @@ function setup(){
   p1 = new Peaton(1000,600,0.5);
   a1 = new Alerta();
   ambulance = new Ambulance(0,650-90);
+  police = new Police(0,650-90);
   background(255);
 }
 
@@ -53,11 +59,21 @@ function draw(){ //Esto es un while que dibuja en pantalla cada 60 milisegundos,
 	
   }
 	ocultarModal("myMessage");
-  if(scenario.level === 3 && car.x>150 && car.x<154){
+  if(scenario.level === 3 && car.x>150 && car.x<156){
     if(car.velocity===4){
-      mostrarModal("myModal",  "Has cometido una infraccion", "El sensor de informes de transito indica que usted ha recibido una infraccion por exceder el limite de velocidad en esta zona" + "<br>" + "<img src='images/signal1.jpg'></img>");
+		infraccion = true;
+		car.canMove = false;
+		mostrarModal("myModal",  "Has cometido una infraccion", "El sensor de informes de transito indica que usted ha recibido una infraccion por exceder el limite de velocidad en esta zona" + "<br>" + "<img src='images/signal1.jpg'></img>");
     }
 	
+  }
+  
+  ocultarModal("myMessage");
+  if(scenario.level === 1 && informe === false){
+	if(car.tire <5){
+		informe=true;
+		mostrarModal("myModal",  "Aviso del estado del vehiculo", "El sensor de informes de estado de su automovil indica que se presenta un desgaste en las llantas, debe cambiarlas pronto" + "<br>" + "<img src='images/tire2.png'></img>");
+	}
   }
 	
   a1.publucity(car,scenario);//La clase se encarga internamente de mostrar la publicidad
@@ -74,17 +90,22 @@ function draw(){ //Esto es un while que dibuja en pantalla cada 60 milisegundos,
     car.velocity = 4;
   else
     car.velocity = 2;
-  
-  scenario.update(car);
-  textSize(32);
-  text(parseInt(car.velocity * 20) + "KPH", 10, 30);
-    if(car.canMove === false){ //Si el carro no se puede mover
+	
+  	scenario.update(car);
+  	textSize(32);
+    text(parseInt(car.velocity * 20) + "KPH", 10, 30);
+	if(car.canMove === false){ //Si el carro no se puede mover
         ambulance.move(car);		//La ambulancia se mueve en direccion al accidente
-		    ambulance.y = p1.y;
+		ambulance.y = p1.y;
         ambulance.show();    //Se muestra la ambulancia
         if(ambulance.x >= p1.x)//Si la ambulancia llega al peaton lo dejamos de mostrar
           p1.alive = false;
     }
+	
+	if(infraccion===true){
+		police.move(car);
+		police.show();
+	}
 }
 
 function mostrarModal(idDiv ,titulo, mensaje){
