@@ -23,6 +23,11 @@ var showconfirmGas = false;
 var gasPlease = false;
 var parkingImg;
 var parking;
+var thiefImg;
+var thief;
+var theft = false; //Variable para saber si el auto han tratado de robarlo
+var needPolice = false;
+var roboAtendido = false;
 
 function preload(){
   city1 = loadImage("images/city1.jpg");
@@ -38,6 +43,7 @@ function preload(){
   policeImg = loadImage("images/police.jpg");
   gasolinaImg = loadImage("images/gasolina.png");
   parkinImg = loadImage("images/parking.png");
+  thiefImg = loadImage("images/thief.png");
 }
 
 function setup(){
@@ -51,6 +57,7 @@ function setup(){
   police = new Police(0,650-90);
   gasolina = new Gasolinera(0,650-90);
   parking = new Parking(2500,500);
+  thief = new Thief(0,500);
   background(255);
 }
 
@@ -157,9 +164,36 @@ function draw(){ //Esto es un while que dibuja en pantalla cada 60 milisegundos,
     parking.show(car);
     var d = dist(parking.x,parking.y,car.x,car.y);
     a1.distParking(Math.floor(d) / 100);
-    if((Math.floor(d) / 100) < 0.7)
-      car.canMove = false;
+    if((Math.floor(d) / 100) < 0.7){
+      thief.move();
+      thief.show();
+      if(thief.canMove === false && roboAtendido === false)
+        theft = true;
+    }
+
+    if(theft === true){
+    theft = false;
+    roboAtendido = true;
+    mostrarModal("myModal",  "SU VEHICULO ESTA SIENDO ROBADO!!!", "MEDIANTE EL SENSOR DE LA PUERTA HA SIDO CAPTURADA LA HUELLA DIGITAL DEL LADRON Y SE HA ENVIADO UN REPORTE A LA PATRULLA MAS CERCANA, LOS CUALES HAN REIBIDO SU DIRECCION Y LO AYUDARAN" + "<br>" + "<img src='images/police.jpg'></img>");
+    needPolice = true;
+    police.x = 0; //Volvemos a mandar a la policia al inicio de la pagina
+    police.y = 500;
   }
+
+  if(needPolice){
+    police.move();
+    police.show();
+    if(police.x >= 476){
+      thief.visible = false;
+    }
+    if(police.x >= width){
+      needPolice = false;
+      roboAtendido = true;
+      car.canMove = true;
+    }
+  }      
+  }
+
 }
 
 function mostrarModal(idDiv ,titulo, mensaje){
