@@ -47,6 +47,15 @@ function Alerta(){
 		}
 		else
 			$("tbody").append("<tr id='alertDistance'><td>AVISO!!! USTED ESTA A " + d + " METROS DE UNA ZONA DE PARQUEO.</td></tr>");
+	}
+
+	this.distBombero = function(distancia){
+		if($("#alertBombero").length){ //Si ya existe el espacio alert distance
+			$("#alertBombero").css("background-color", "red");
+			$("#alertBombero").html("<td>ADVERTENCIA!!! UN CAMION DE BOMBEROS ESTA A " + distancia + " METROS DE USTED, POR FAVOR ACERQUE SU VEHICULO A LA CERA PARA DAR PASO.</td>");			
+		}
+		else
+			$("tbody").append("<tr id='alertBombero'><td>ADVERTENCIA!!! UN CAMION DE BOMBEROS ESTA A" + distancia + " METROS DE USTED, POR FAVOR ACERQUE SU VEHICULO A LA CERA PARA DAR PASO.</td></tr>");
 	}	
 	
 }

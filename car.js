@@ -7,6 +7,8 @@ function Car(x,y){
 	this.canMove = true;
 	this.tire=6;
 	this.isMoving = false;
+	this.w = 128; //El ancho de la imagen
+	this.h = 72; //El alto de la imagen
 	this.move = function(d){ //d es la direcion
 		if(this.canMove === true){
 			this.gas -= this.velocity; //Si se puede mover se le va gastando la gasolina
@@ -22,7 +24,10 @@ function Car(x,y){
 	}
 	
 	this.show = function(){
-        image(carImg,128 * this.frame++,96*2 ,128,96,this.x,this.y,128,96);
+        image(carImg,128 * this.frame++,110*2 ,128,this.h,this.x,this.y,128,this.h);
+        noFill();
+        stroke(255,0,0);
+		rect(this.x,this.y,128,this.h);
         this.frame = (this.frame === 3)?0:this.frame;
     }
 	

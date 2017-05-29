@@ -1,5 +1,5 @@
 function Scenario(){
-	this.level = 6;
+	this.level = 1;
 	this.show = function(x,v){
 		if(this.level === 1){
 			image(city1, -x * 2 * 2,0,4267,650); //Se dibuja el fondo
@@ -30,18 +30,22 @@ function Scenario(){
 		else if(car.x > 350 && this.level === 2){
 			this.level = 3;
 			car.x = 0;
+			car.tire--;
 		}
 		else if(car.x > 500 && this.level === 3){
 			this.level = 4;
 			car.x = 0;
+			car.tire--;
 		}
 		else if(car.x > 766 && this.level === 4){
 			this.level = 5;
 			car.x = 0;
+			car.tire--;
 		}
 		else if(car.x > 828 && this.level === 5){
 			this.level = 6;
 			car.x = 0;
+			car.tire--;
 		}
 		else if(car.x > 828 && this.level === 6){
 			this.level = 1;

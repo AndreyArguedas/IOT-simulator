@@ -28,6 +28,8 @@ var thief;
 var theft = false; //Variable para saber si el auto han tratado de robarlo
 var needPolice = false;
 var roboAtendido = false;
+var bomberoImg;
+var bombero;
 
 function preload(){
   city1 = loadImage("images/city1.jpg");
@@ -44,6 +46,7 @@ function preload(){
   gasolinaImg = loadImage("images/gasolina.png");
   parkinImg = loadImage("images/parking.png");
   thiefImg = loadImage("images/thief.png");
+  bomberoImg = loadImage("images/bombero.png")
 }
 
 function setup(){
@@ -58,6 +61,7 @@ function setup(){
   gasolina = new Gasolinera(0,650-90);
   parking = new Parking(2500,500);
   thief = new Thief(0,500);
+  bombero = new Bombero(-1500,460);
   background(255);
 }
 
@@ -91,10 +95,10 @@ function draw(){ //Esto es un while que dibuja en pantalla cada 60 milisegundos,
   
   ocultarModal("myMessage");
   if(scenario.level === 1 && informe === false){
-	if(car.tire <5){
-		informe=true;
-		mostrarModal("myModal",  "Aviso del estado del vehiculo", "El sensor de informes de estado de su automovil indica que se presenta un desgaste en las llantas, debe cambiarlas pronto" + "<br>" + "<img src='images/tire2.png'></img>");
-	}
+	   if(car.tire <5){
+		    informe=true;
+		    mostrarModal("myModal",  "Aviso del estado del vehiculo", "El sensor de informes de estado de su automovil indica que se presenta un desgaste en las llantas, debe cambiarlas pronto" + "<br>" + "<img src='images/tire2.png'></img>");
+	   }
   }
 	
   a1.publucity(car,scenario);//La clase se encarga internamente de mostrar la publicidad
@@ -159,6 +163,14 @@ function draw(){ //Esto es un while que dibuja en pantalla cada 60 milisegundos,
 		police.move(car);
 		police.show();
 	}
+
+  if(scenario.level === 5){
+    bombero.move();
+    bombero.show();
+    var dt = dist(bombero.x,bombero.y,car.x,car.y);
+    a1.distBombero(Math.floor(dt) / 100);
+    console.log(bombero.colission(car));
+  }
 
   if(scenario.level === 6){
     parking.show(car);
