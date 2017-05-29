@@ -1,7 +1,7 @@
 function Car(x,y){
 	this.x = x;
 	this.y = y;
-	this.gas = 100000;
+	this.gas = 10000;
 	this.velocity = 1; //Cada segundo avanza 16 pixeles
 	this.frame = 0; //La imagen que esta usando en un momento
 	this.canMove = true;

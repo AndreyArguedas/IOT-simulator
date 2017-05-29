@@ -26,16 +26,19 @@ function Scenario(){
 			this.level = 2;
 			car.x = 0;
 			car.tire--;
+			$("#tbody").html("");
 		}
 		else if(car.x > 350 && this.level === 2){
 			this.level = 3;
 			car.x = 0;
 			car.tire--;
+			$("#tbody").html("");
 		}
 		else if(car.x > 500 && this.level === 3){
 			this.level = 4;
 			car.x = 0;
 			car.tire--;
+			$("#tbody").html("");
 		}
 		else if(car.x > 766 && this.level === 4){
 			this.level = 5;
@@ -46,10 +49,12 @@ function Scenario(){
 			this.level = 6;
 			car.x = 0;
 			car.tire--;
+			$("#tbody").html("");
 		}
 		else if(car.x > 828 && this.level === 6){
 			this.level = 1;
 			car.x = 0;
+			$("#tbody").html("");
 		}
 		
 	} 
