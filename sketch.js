@@ -16,6 +16,9 @@ var police;
 var policeImg;
 var gasolinaImg;
 var gasolina;
+var smoke;
+var smokeImg1;
+var smokeImg2;
 var informe=false;
 var infraccion=false;
 var colisionP1 = false;
@@ -38,7 +41,7 @@ function preload(){
   city4 = loadImage("images/city6.jpg");
   city5 = loadImage("images/city13.jpg");
   city6 = loadImage("images/city8.jpg");
-  city7 = loadImage("images/city7.jpg");
+  city7 = loadImage("images/city7b.png");
   carImg = loadImage("images/car.png");
   peaton1Img = loadImage("images/peaton.png");
   ambulanceImg = loadImage("images/ambulance.png");
@@ -46,7 +49,9 @@ function preload(){
   gasolinaImg = loadImage("images/gasolina.png");
   parkinImg = loadImage("images/parking.png");
   thiefImg = loadImage("images/thief.png");
-  bomberoImg = loadImage("images/bombero.png")
+  bomberoImg = loadImage("images/bombero.png");
+  smokeImg1 = loadImage("images/humo3.png");
+  smokeImg2 = loadImage("images/humo6.png");
 }
 
 function setup(){
@@ -62,6 +67,7 @@ function setup(){
   parking = new Parking(2500,500);
   thief = new Thief(0,500);
   bombero = new Bombero(-1500,460);
+  smoke = new Smoke(0, 650-96);
   background(255);
 }
 
@@ -69,6 +75,7 @@ function draw(){ //Esto es un while que dibuja en pantalla cada 60 milisegundos,
 	
 	scenario.show(car.x,car.velocity);
 	car.show();
+	smoke.show();
 	ocultarModal("myMessage");
   if(scenario.level === 2 && p1.alive === true){
     p1.show(car.x,2);
@@ -93,11 +100,23 @@ function draw(){ //Esto es un while que dibuja en pantalla cada 60 milisegundos,
 	
   }
   
+  if(car.gas < 5000){
+	  smoke.level = 2;
+	  smoke.show();
+  }
+  
   ocultarModal("myMessage");
   if(scenario.level === 1 && informe === false){
 	   if(car.tire <5){
 		    informe=true;
 		    mostrarModal("myModal",  "Aviso del estado del vehiculo", "El sensor de informes de estado de su automovil indica que se presenta un desgaste en las llantas, debe cambiarlas pronto" + "<br>" + "<img src='images/tire2.png'></img>");
+	   }
+  }
+	ocultarModal("myMessage");
+	if(scenario.level === 6 && car.x>360 && car.x<366){
+	   if(smoke.level === 2){
+		    //informe=true;
+		    mostrarModal("myModal",  "Aviso del estado del vehiculo", "El sensor de control de humo de COSEVI a enviado una alerta que indica que su vehiculo expulsa una cantidad exesiva de humo, necesita revision cuanto antes " + "<br>" + "<img src='images/cosevi.png'></img>");
 	   }
   }
 	
@@ -116,6 +135,7 @@ function draw(){ //Esto es un while que dibuja en pantalla cada 60 milisegundos,
   else
     car.velocity = 2;
 	
+	smoke.move(car);
   	scenario.update(car);
   	textSize(32);
     fill(255,0,0);
