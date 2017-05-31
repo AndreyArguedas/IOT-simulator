@@ -4,6 +4,7 @@ var city3;
 var city5;
 var city6;
 var city7;
+var city8;
 var carImg;
 var car;
 var scenario;
@@ -33,6 +34,9 @@ var needPolice = false;
 var roboAtendido = false;
 var bomberoImg;
 var bombero;
+var postLightImg;
+var posts = []; //Array con los postes de luz
+var msjMuni = false; //Un msj que se mostrara al inicio del escenario de las variables de postes de luces
 
 function preload(){
   city1 = loadImage("images/city1.jpg");
@@ -42,6 +46,7 @@ function preload(){
   city5 = loadImage("images/city13.jpg");
   city6 = loadImage("images/city8.jpg");
   city7 = loadImage("images/city7b.png");
+  city8 = loadImage("images/night.jpg");
   carImg = loadImage("images/car.png");
   peaton1Img = loadImage("images/peaton.png");
   ambulanceImg = loadImage("images/ambulance.png");
@@ -52,6 +57,8 @@ function preload(){
   bomberoImg = loadImage("images/bombero.png");
   smokeImg1 = loadImage("images/humo3.png");
   smokeImg2 = loadImage("images/humo6.png");
+  postLightImg = loadImage("images/postlight.png");
+
 }
 
 function setup(){
@@ -68,6 +75,8 @@ function setup(){
   thief = new Thief(0,500);
   bombero = new Bombero(-1500,460);
   smoke = new Smoke(0, 650-96);
+  for(var i = 0; i < 2; i++)
+    posts.push(new Post(1000 * (i + 1),280));
   background(255);
 }
 
@@ -224,6 +233,17 @@ function draw(){ //Esto es un while que dibuja en pantalla cada 60 milisegundos,
       car.canMove = true;
     }
   }      
+  }
+
+  if(scenario.level === 7){
+    if(msjMuni === false){
+      mostrarModal("myModal",  "PRECAUCION CON EL NUEVO SISTEMA DE LUCES!!!", "LA MUNICPALIDAD LE COMUNICA QUE ESTA CIUDAD CUENTA CON UN SISTEMA DE LUCES QUE POSEEN UN SENSOR EN LA PARTE SUPERIOR PARA ILUMINAR SOLAMENTE CUANDO SU VEHICULO SE ENCUENTRA CERCA" + "<br>" + "<img src='images/postlight.png'></img>");
+      msjMuni = true; //true para que no se vuelva a mostrar
+    }
+    for(var i = 0; i < posts.length; i++){
+      posts[i].show(car);
+      posts[i].distCar(car); //Para estar actualizando las luces
+    }
   }
 
 }

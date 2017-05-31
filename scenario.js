@@ -1,5 +1,5 @@
 function Scenario(){
-	this.level = 1;
+	this.level = 7;
 	this.show = function(x,v){
 		if(this.level === 1){
 			image(city1, -x * 2 * 2,0,4267,650); //Se dibuja el fondo
@@ -18,6 +18,9 @@ function Scenario(){
 		}
 		else if(this.level === 6){
 			image(city7,-x * 2 * 2,0,4222,650); //Se dibuja el fondo
+		}
+		else if(this.level === 7){
+			image(city8,-x * 2 * 2,0,2880,650); //Se dibuja el fondo
 		}
 	}
 
