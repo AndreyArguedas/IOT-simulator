@@ -37,13 +37,15 @@ var bombero;
 var postLightImg;
 var posts = []; //Array con los postes de luz
 var msjMuni = false; //Un msj que se mostrara al inicio del escenario de las variables de postes de luces
+var pasajeroImg;
+var pasajero;
 
 function preload(){
   city1 = loadImage("images/city1.jpg");
   city2 = loadImage("images/city5.png");
   city3 = loadImage("images/city3.png");
   city4 = loadImage("images/city6.jpg");
-  city5 = loadImage("images/city13.jpg");
+  city5 = loadImage("images/city9.jpg");
   city6 = loadImage("images/city8.jpg");
   city7 = loadImage("images/city7b.png");
   city8 = loadImage("images/night.jpg");
@@ -58,7 +60,7 @@ function preload(){
   smokeImg1 = loadImage("images/humo3.png");
   smokeImg2 = loadImage("images/humo6.png");
   postLightImg = loadImage("images/postlight.png");
-
+  pasajeroImg = loadImage("images/pasajero.png");
 }
 
 function setup(){
@@ -75,6 +77,7 @@ function setup(){
   thief = new Thief(0,500);
   bombero = new Bombero(-1500,460);
   smoke = new Smoke(0, 650-96);
+  pasajero = new Pasajero(1500,550);
   for(var i = 0; i < 2; i++)
     posts.push(new Post(1000 * (i + 1),280));
   background(255);
@@ -192,6 +195,11 @@ function draw(){ //Esto es un while que dibuja en pantalla cada 60 milisegundos,
 		police.move(car);
 		police.show();
 	}
+
+  if(scenario.level === 4){
+    pasajero.move(car);
+    pasajero.show();
+  }
 
   if(scenario.level === 5){
     bombero.move();
