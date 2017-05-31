@@ -39,6 +39,8 @@ var posts = []; //Array con los postes de luz
 var msjMuni = false; //Un msj que se mostrara al inicio del escenario de las variables de postes de luces
 var pasajeroImg;
 var pasajero;
+var showPasajero;
+var mostrarUnaVez = 0; //Para controlar que el modal de pasajero se muestre solo una vez
 
 function preload(){
   city1 = loadImage("images/city1.jpg");
@@ -197,8 +199,36 @@ function draw(){ //Esto es un while que dibuja en pantalla cada 60 milisegundos,
 	}
 
   if(scenario.level === 4){
-    pasajero.move(car);
-    pasajero.show();
+      pasajero.move(car);
+      pasajero.show();
+    if(pasajero.x === car.x && pasajero.canMove === true){
+      pasajero.canMove = false;
+      bootbox.confirm({
+        message: "EL PEATON HA SIDO ASALTADO, PODRÌAS DARLE UN AVENTON HASTA SU CIUDAD?",
+        buttons: {
+            confirm: {
+                label: 'SÍ',
+                className: 'btn-success'
+            },
+            cancel: {
+                label: 'NO',
+                className: 'btn-danger'
+            }
+        },
+        callback: function (result) {
+            pasajero.canMove = !result;
+            if(pasajero.canMove === true) //Esto significa que no monto al pasajero
+              pasajero.visible = true;
+            else
+              showPasajero = true; //Mostrar modal de pasajero
+        }
+      });
+    }
+    if(showPasajero === true && mostrarUnaVez === 0){
+      mostrarUnaVez = 1;
+      mostrarModal("myModal",  "EL VEHICULO HA IDENTIFICADO AL PASAJERO", "MEDIANTE LA CAMARA UBICADA EN LA GUANTERA SE HA IDENTIFICADO LA INFORMACION DEL PASAJERO. CEDULA:4-0444-0222 NOMBRE:JULIO QUESADA AGUIRRE " + "<br>" + "<img src='images/pasajeroindividual.png'></img>");
+    }
+
   }
 
   if(scenario.level === 5){
