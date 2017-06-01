@@ -5,6 +5,7 @@ var city5;
 var city6;
 var city7;
 var city8;
+var city9;
 var carImg;
 var car;
 var scenario;
@@ -41,6 +42,10 @@ var pasajeroImg;
 var pasajero;
 var showPasajero;
 var mostrarUnaVez = 0; //Para controlar que el modal de pasajero se muestre solo una vez
+var accident;
+var accidentImg;
+var othercarImg;
+var others = []; //Los carros negros para la variable de comunicacion entre carros
 
 function preload(){
   city1 = loadImage("images/city1.jpg");
@@ -51,6 +56,7 @@ function preload(){
   city6 = loadImage("images/city8.jpg");
   city7 = loadImage("images/city7b.png");
   city8 = loadImage("images/night.jpg");
+  city9 = loadImage("images/city12.png");
   carImg = loadImage("images/car.png");
   peaton1Img = loadImage("images/peaton.png");
   ambulanceImg = loadImage("images/ambulance.png");
@@ -63,6 +69,8 @@ function preload(){
   smokeImg2 = loadImage("images/humo6.png");
   postLightImg = loadImage("images/postlight.png");
   pasajeroImg = loadImage("images/pasajero.png");
+  accidentImg = loadImage("images/accidente.png");
+  othercarImg = loadImage("images/othercar.png");
 }
 
 function setup(){
@@ -82,6 +90,9 @@ function setup(){
   pasajero = new Pasajero(1500,550);
   for(var i = 0; i < 2; i++)
     posts.push(new Post(1000 * (i + 1),280));
+  for(var i = 0; i < 2; i++)
+    others.push(new OtherCar(1000 * (i + 1),500));
+  accident = new Accident(2500,570);
   background(255);
 }
 
@@ -281,6 +292,17 @@ function draw(){ //Esto es un while que dibuja en pantalla cada 60 milisegundos,
     for(var i = 0; i < posts.length; i++){
       posts[i].show(car);
       posts[i].distCar(car); //Para estar actualizando las luces
+    }
+  }
+
+  if(scenario.level === 8){
+    accident.show(car);
+    for(var i = 0; i < others.length; i++){
+      others[i].show(car);
+      others[i].move(car);
+      others[i].alertar(car);
+      if(accident.colission(car) === true)
+        car.x -= 10;
     }
   }
 

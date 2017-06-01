@@ -22,6 +22,9 @@ function Scenario(){
 		else if(this.level === 7){
 			image(city8,-x * 2 * 2,0,2880,650); //Se dibuja el fondo
 		}
+		else if(this.level === 8){
+			image(city9,-x * 2 * 2,0,3072,650); //Se dibuja el fondo
+		}
 	}
 
 	this.update = function(car){
@@ -61,6 +64,12 @@ function Scenario(){
 		}
 
 		else if(car.x > 520 && this.level === 7){
+			this.level = 8;
+			car.x = 0;
+			$("#tbody").html("");
+		}
+
+		else if(car.x > 728 && this.level === 8){
 			this.level = 1;
 			car.x = 0;
 			$("#tbody").html("");
