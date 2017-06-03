@@ -25,6 +25,12 @@ function Scenario(){
 		else if(this.level === 8){
 			image(city9,-x * 2 * 2,0,3072,650); //Se dibuja el fondo
 		}
+		else if(this.level === 9){
+			image(city10,-x * 2 * 2,0,2580,650); //Se dibuja el fondo
+		}
+		else if(this.level === 10){
+			image(cityRestric,-x * 2 * 2,0,2214,650); //CIUDAD CON PARTE
+		}
 		
 	}
 
@@ -71,10 +77,24 @@ function Scenario(){
 		}
 
 		else if(car.x > 728 && this.level === 8){
+			this.level = 9;
+			car.x = 0;
+			$("#tbody").html("");
+		}
+
+		else if(car.x > 400 && this.level === 9){
 			this.level = 1;
 			car.x = 0;
 			$("#tbody").html("");
 		}
+
+		else if(car.x > 200 && this.level === 10){ //Ciudad con restriccion
+			this.level = 1;
+			car.x = 0;
+			$("#tbody").html("");
+		}
+
+
 		
 	} 
 	
@@ -86,5 +106,6 @@ function Scenario(){
 		}
 		return false;
 	}	
+
 	
 }

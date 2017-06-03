@@ -56,6 +56,11 @@ var wifiOffImg;
 var wifiPublico = false;
 var showWifi = false;
 var others = []; //Los carros negros para la variable de comunicacion entre carros
+var city10; //Ciudad donde se alertara que hay restriccion
+var alertarRestriccion = false; //Variable para alertar sobre la restrccion de placa
+var irRestriccion = false; //Ir a la ciudad que tiene restriccion
+var cityRestric;
+var restriccion = false;
 
 function preload(){
   city1 = loadImage("images/city1.jpg");
@@ -67,6 +72,7 @@ function preload(){
   city7 = loadImage("images/city7b.png");
   city8 = loadImage("images/night.jpg");
   city9 = loadImage("images/city12.png");
+  city10 = loadImage("images/city6.jpg");
   carImg = loadImage("images/car.png");
   peaton1Img = loadImage("images/peaton.png");
   ambulanceImg = loadImage("images/ambulance.png");
@@ -85,7 +91,8 @@ function preload(){
   darkCloudImg = loadImage("images/cloud2.jpg");
   wifiOnImg = loadImage("images/wifi5.png");
   wifiOffImg = loadImage("images/wifi4.png");
-}
+  cityRestric = loadImage("images/cityrestric.png");
+} 
 
 function setup(){
 	var can = createCanvas(1000,650);//Se crea una pantalla de 700x700
@@ -185,7 +192,7 @@ function draw(){ //Esto es un while que dibuja en pantalla cada 60 milisegundos,
 	if(wifiPublico===true && car.x>350 && car.x<356){
 		wifi.on = true;
 		wifiPublico=false;
-		mostrarModal("myModal", "Te has conectado a la red WI-FI del taxista" + "<br>" + "<img src='images/taxi1.png'></img>");
+		mostrarModal("myModal", "Te has conectado a la red WI-FI del taxista" + "<br>","<img src='images/taxi1.png'></img>");
 	}
 	
 
@@ -382,6 +389,40 @@ function draw(){ //Esto es un while que dibuja en pantalla cada 60 milisegundos,
       if(accident.colission(car) === true)
         car.x -= 10;
     }
+  }
+
+  if(scenario.level === 9){
+      if(car.x >= 328 && alertarRestriccion === false){
+          alertarRestriccion = true;
+          mostrarModal("myModal",  "RESTRICCION DE VEHICULO EN LA PRÓXIMA CIUDAD!!!", "EL COSEVI LE COMUNICA QUE SU VEHICULO CUENTA CON RESTRICCION EL DIA DE HOY PARA LA PROXIMA CIUDAD, SI DECIDE IR A DICHA CIUDAD RECIBIRÁ UN PARTE POR 100000 COLONES O PUEDE TOMAR LA RUTA ALTERNA, GRACIAS POR LA COMPRESION" + "<br>" + "<img src='images/cosevi.png'></img>");
+          bootbox.confirm({
+            message: "CUAL RUTA DESEA TOMAR?",
+            buttons: {
+              confirm: {
+                label: 'TOMAR RUTA ALTERNA(LIBRE DE PARTE)',
+                className: 'btn-success'
+              },
+              cancel: {
+                label: 'IR A CIUDAD CON RESTRCCION(RECIBIR PARTE)',
+                className: 'btn-danger'
+              }
+            },
+          callback: function (result) {
+            irRestriccion = result;
+            car.x = 0;
+            if(irRestriccion === true){
+                scenario.level = 1;
+            }
+            else
+                scenario.level = 10;
+          }            
+        });
+    }
+}
+
+  if(scenario.level === 10 && irRestriccion === false){
+      irRestriccion = true;
+      mostrarModal("myModal",  "USTED HA RECIBIDO UNA INFRACCION!!!", "EL COSEVI LE COMUNICA QUE POR NO CUMPLIR CON LAS LEYES DE RESTRICCION HA RECIBIDO UN PARTE POR $10000 UNA SEGUNDA INFRACCION DE ESTE ESTILO Y SU LICENCIA SERÁ RETIRADA" + "<br>" + "<img src='images/cosevi.png'></img>");
   }
 
 }
