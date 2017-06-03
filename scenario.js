@@ -25,6 +25,7 @@ function Scenario(){
 		else if(this.level === 8){
 			image(city9,-x * 2 * 2,0,3072,650); //Se dibuja el fondo
 		}
+		
 	}
 
 	this.update = function(car){

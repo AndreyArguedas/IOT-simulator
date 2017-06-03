@@ -3,7 +3,7 @@ function Pasajero(x,y,z){
 	this.y = y;
 	this.posInicial = this.x; //Para generar el efecto de movilidad de la ciudad
 	this.frame = 0;
-	this.canMove = true;
+	this.canMove = false;
 	this.visible = true;
 	this.show = function(){
 		if(this.visible === true){

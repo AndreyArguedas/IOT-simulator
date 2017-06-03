@@ -45,13 +45,23 @@ var mostrarUnaVez = 0; //Para controlar que el modal de pasajero se muestre solo
 var accident;
 var accidentImg;
 var othercarImg;
+var rain;
+var rainImg;
+var darkCloudImg;
+var modeRain = false;
+var showModeRain=false;
+var wifi;
+var wifiOnImg;
+var wifiOffImg;
+var wifiPublico = false;
+var showWifi = false;
 var others = []; //Los carros negros para la variable de comunicacion entre carros
 
 function preload(){
   city1 = loadImage("images/city1.jpg");
   city2 = loadImage("images/city5.png");
   city3 = loadImage("images/city3.png");
-  city4 = loadImage("images/city6.jpg");
+  city4 = loadImage("images/city14.png");
   city5 = loadImage("images/city9.jpg");
   city6 = loadImage("images/city8.jpg");
   city7 = loadImage("images/city7b.png");
@@ -71,6 +81,10 @@ function preload(){
   pasajeroImg = loadImage("images/pasajero.png");
   accidentImg = loadImage("images/accidente.png");
   othercarImg = loadImage("images/othercar.png");
+  rainImg = loadImage("images/rain2.png");
+  darkCloudImg = loadImage("images/cloud2.jpg");
+  wifiOnImg = loadImage("images/wifi5.png");
+  wifiOffImg = loadImage("images/wifi4.png");
 }
 
 function setup(){
@@ -93,6 +107,8 @@ function setup(){
   for(var i = 0; i < 2; i++)
     others.push(new OtherCar(1000 * (i + 1),500));
   accident = new Accident(2500,570);
+  rain = new Cloud();
+  wifi = new Wifi(0, 650-90);
   background(255);
 }
 
@@ -101,6 +117,7 @@ function draw(){ //Esto es un while que dibuja en pantalla cada 60 milisegundos,
 	scenario.show(car.x,car.velocity);
 	car.show();
 	smoke.show();
+	wifi.show();
 	ocultarModal("myMessage");
   if(scenario.level === 2 && p1.alive === true){
     p1.show(car.x,2);
@@ -115,6 +132,63 @@ function draw(){ //Esto es un while que dibuja en pantalla cada 60 milisegundos,
     }
 	
   }
+
+	if(scenario.level === 4){
+		rain.show();
+	}
+	if(scenario.level === 5){
+		modeRain = false;
+	}
+	
+
+	if(scenario.level === 4 && showModeRain === false){
+		showModeRain = true;
+		bootbox.confirm({
+        message: "Se a detectado humedad en la carretera, deseas activar el modo lluvia?........................(El modo lluvia no permite subir a mas de 5000 revoluciones)",
+        buttons: {
+            confirm: {
+                label: 'Activar modo lluvia',
+                className: 'btn-success'
+            },
+            cancel: {
+                label: 'Seguir en modo normal',
+                className: 'btn-danger'
+            }
+        },
+        callback: function (result) {
+            modeRain = result;
+        }
+    });
+	}
+	
+	if(showWifi === false && wifi.on === false){
+			showWifi=true;
+			bootbox.confirm({
+			message: "Te has quedado sin internet, deseas conectarte una red publica cercarna para realizar el pago de tu servio de Internet?",
+			buttons: {
+				confirm: {
+					label: 'Conectarse a Red Publica',
+					className: 'btn-success'
+				},
+				cancel: {
+					label: 'Seguir sin conexion',
+					className: 'btn-danger'
+				}
+			},
+			callback: function (result) {
+				wifiPublico = result;
+			}
+		});
+	}
+	
+	ocultarModal("myMessage");
+	if(wifiPublico===true && car.x>350 && car.x<356){
+		wifi.on = true;
+		wifiPublico=false;
+		mostrarModal("myModal", "Te has conectado a la red WI-FI del taxista" + "<br>" + "<img src='images/taxi1.png'></img>");
+	}
+	
+
 	ocultarModal("myMessage");
   if(scenario.level === 3 && car.x>150 && car.x<156){
     if(car.velocity===4){
@@ -122,12 +196,15 @@ function draw(){ //Esto es un while que dibuja en pantalla cada 60 milisegundos,
 		car.canMove = false;
 		mostrarModal("myModal",  "Has cometido una infraccion", "El sensor de informes de transito indica que usted ha recibido una infraccion por exceder el limite de velocidad en esta zona" + "<br>" + "<img src='images/signal1.jpg'></img>");
     }
-	
   }
   
   if(car.gas < 5000){
 	  smoke.level = 2;
 	  smoke.show();
+  }
+  
+  if(car.gas > 8800 && car.gas < 8850){
+	  wifi.on = false;
   }
   
   ocultarModal("myMessage");
@@ -155,12 +232,13 @@ function draw(){ //Esto es un while que dibuja en pantalla cada 60 milisegundos,
     car.move(3);
   if(keyIsDown(DOWN_ARROW))
     car.move(4);
-  if(keyIsDown(32))
+  if(keyIsDown(32) && modeRain === false)
     car.velocity = 4;
   else
     car.velocity = 2;
 	
 	smoke.move(car);
+	wifi.move(car);
   	scenario.update(car);
   	textSize(32);
     fill(255,0,0);
