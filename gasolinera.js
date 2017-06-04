@@ -16,8 +16,10 @@ function Gasolinera(x,y){
 	}
 	
 	this.show = function(){
-		if(this.x < width && this.free === false) //Con el false nos referimos a que esta trabajando
+		if(this.x < width && this.free === false){ //Con el false nos referimos a que esta trabajando
         	image(gasolinaImg,0,0,294,100,this.x,this.y,294,100);
+        	image(wifiOnImg,0,0,512,512,this.x + 10,this.y - 80,100,100);
+        }
     }
 	
 }

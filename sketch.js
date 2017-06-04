@@ -181,7 +181,7 @@ function draw(){ //Esto es un while que dibuja en pantalla cada 60 milisegundos,
 	if(scenario.level === 4 && showModeRain === false){
 		showModeRain = true;
 		bootbox.confirm({
-        message: "Se a detectado humedad en la carretera, deseas activar el modo lluvia?........................(El modo lluvia no permite subir a mas de 5000 revoluciones)",
+        message: "Se a detectado humedad en la carretera, el COSEVI te recomienda activar el modo lluvia?........................(El modo lluvia no permite subir a mas de 5000 revoluciones)" + "<img src='images/cosevi.png'></img>",
         buttons: {
             confirm: {
                 label: 'Activar modo lluvia',
