@@ -66,6 +66,8 @@ var policeman;
 var policemanImg;
 var detenerConductor = false;
 var mostrarPapeles = false;
+var ac; //Varaible para el aire acondicionado
+var dronImg;
 
 function preload(){
   city1 = loadImage("images/city1.jpg");
@@ -99,6 +101,7 @@ function preload(){
   wifiOffImg = loadImage("images/wifi4.png");
   cityRestric = loadImage("images/cityrestric.png");
   policemanImg = loadImage("images/policeman.png");
+  dronImg = loadImage("images/dron.png");
 } 
 
 function setup(){
@@ -124,6 +127,8 @@ function setup(){
   rain = new Cloud();
   wifi = new Wifi(0, 650-90);
   policeman = new Policeman(1800,550);
+  dron = new Dron(1500,50);
+  ac = 21;
   background(255);
 }
 
@@ -133,6 +138,8 @@ function draw(){ //Esto es un while que dibuja en pantalla cada 60 milisegundos,
 	car.show();
 	smoke.show();
 	wifi.show();
+  dron.show(car);
+  ac = dron.update(car,scenario.level);
 	ocultarModal("myMessage");
   if(scenario.level === 2 && p1.alive === true){
     p1.show(car.x,2);
@@ -259,6 +266,7 @@ function draw(){ //Esto es un while que dibuja en pantalla cada 60 milisegundos,
     fill(255,0,0);
     text(parseInt(car.velocity * 20) + "KPH", 10, 30);
     text("GASOLINA " + car.gas + " mililitros" , 600, 30);
+    text("A/C " + ac + "°" , (width / 2) - 100, 30);
 	if(colisionP1 === true){ //Si el carro no se puede mover
         ambulance.move(car,colisionP1);		//La ambulancia se mueve en direccion al accidente
 		    ambulance.y = p1.y;
