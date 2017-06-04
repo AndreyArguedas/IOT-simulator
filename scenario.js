@@ -31,6 +31,9 @@ function Scenario(){
 		else if(this.level === 10){
 			image(cityRestric,-x * 2 * 2,0,2214,650); //CIUDAD CON PARTE
 		}
+		else if(this.level === 11){
+			image(city11,-x * 2 * 2,0,3800,650); //CIUDAD DONDE ESTA EL POLICIA
+		}
 		
 	}
 
@@ -89,12 +92,16 @@ function Scenario(){
 		}
 
 		else if(car.x > 200 && this.level === 10){ //Ciudad con restriccion
-			this.level = 1;
+			this.level = 11;
 			car.x = 0;
 			$("#tbody").html("");
 		}
 
-
+		else if(car.x > 700 && this.level === 11){ //Ciudad con parte
+			this.level = 1;
+			car.x = 0;
+			$("#tbody").html("");
+		}
 		
 	} 
 	

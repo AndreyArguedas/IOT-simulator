@@ -13,3 +13,7 @@ td{
 .ztop{
     z-index: 8000;
 }
+
+#myModal3Message{
+	height: 500px;
+}

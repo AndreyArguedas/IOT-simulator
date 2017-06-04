@@ -6,6 +6,7 @@ var city6;
 var city7;
 var city8;
 var city9;
+var city11;
 var carImg;
 var car;
 var scenario;
@@ -61,6 +62,10 @@ var alertarRestriccion = false; //Variable para alertar sobre la restrccion de p
 var irRestriccion = false; //Ir a la ciudad que tiene restriccion
 var cityRestric;
 var restriccion = false;
+var policeman;
+var policemanImg;
+var detenerConductor = false;
+var mostrarPapeles = false;
 
 function preload(){
   city1 = loadImage("images/city1.jpg");
@@ -73,6 +78,7 @@ function preload(){
   city8 = loadImage("images/night.jpg");
   city9 = loadImage("images/city12.png");
   city10 = loadImage("images/city6.jpg");
+  city11 = loadImage("images/city13.jpg");
   carImg = loadImage("images/car.png");
   peaton1Img = loadImage("images/peaton.png");
   ambulanceImg = loadImage("images/ambulance.png");
@@ -92,10 +98,11 @@ function preload(){
   wifiOnImg = loadImage("images/wifi5.png");
   wifiOffImg = loadImage("images/wifi4.png");
   cityRestric = loadImage("images/cityrestric.png");
+  policemanImg = loadImage("images/policeman.png");
 } 
 
 function setup(){
-	var can = createCanvas(1000,650);//Se crea una pantalla de 700x700
+	var can = createCanvas(1000,650);
   can.parent('screen');
 	car = new Car(0,650-96);
 	scenario = new Scenario();
@@ -116,6 +123,7 @@ function setup(){
   accident = new Accident(2500,570);
   rain = new Cloud();
   wifi = new Wifi(0, 650-90);
+  policeman = new Policeman(1800,550);
   background(255);
 }
 
@@ -411,7 +419,7 @@ function draw(){ //Esto es un while que dibuja en pantalla cada 60 milisegundos,
             irRestriccion = result;
             car.x = 0;
             if(irRestriccion === true){
-                scenario.level = 1;
+                scenario.level = 11;
             }
             else
                 scenario.level = 10;
@@ -423,6 +431,23 @@ function draw(){ //Esto es un while que dibuja en pantalla cada 60 milisegundos,
   if(scenario.level === 10 && irRestriccion === false){
       irRestriccion = true;
       mostrarModal("myModal",  "USTED HA RECIBIDO UNA INFRACCION!!!", "EL COSEVI LE COMUNICA QUE POR NO CUMPLIR CON LAS LEYES DE RESTRICCION HA RECIBIDO UN PARTE POR $10000 UNA SEGUNDA INFRACCION DE ESTE ESTILO Y SU LICENCIA SERÁ RETIRADA" + "<br>" + "<img src='images/cosevi.png'></img>");
+  }
+
+  if(scenario.level === 11){
+      policeman.show(car);
+      if(policeman.x <= 550 && mostrarPapeles === false){
+        car.canMove = false;
+        if(detenerConductor === false){
+          mostrarModal("myModal",  "TODOS SUS PAPELES ESTAN EN ORDEN!!!", "SEÑOR HE REVISADO TODOS LOS DOCUMENTOS Y ESTAN EN ORDEN, QUE TENGA BUEN VIAJE." + "<br>" + "<img src='images/policeok.png'></img>");
+          mostrarModal("myModal2",  "TRANQUILO LOS BAJARE DESDE LA NUBE DEL COSEVI ESCANEANDO SU PLACA CON MI CELULAR!!!", "EL OFICIAL ESCANEA TU PLACA MEDIANTE UNA APLICACION Y DESCARGA TODOS LOS DOCUMENTOS VINCULADOS AL CARRO" + "<br>" + "<img src='images/cellphone.png'></img>");
+          mostrarModal("myModal3",  "DISCULPE OFICIAL LOS HE OLVIDADO EN MI HOGAR!!!", "<img src='images/singlecar.png'></img>");
+          mostrarModal("myModal4",  "PERMITAME SUS PAPELES Y LICENCIA SEÑOR!!!", "EL OFICIAL DESEA VER LOS DOCUMENTOS DE SU CARRO" + "<br>" + "<img src='images/policia-enfadado.png'></img>");
+          detenerConductor = true;
+          policeman.visible = false;
+          car.canMove = true;
+          mostrarPapeles = true;
+        }
+      }
   }
 
 }
