@@ -11,6 +11,7 @@ function Police(x,y){
 	
 	this.show = function(){
         image(policeImg,0,0,177,71,this.x,this.y,177,71);
+        image(wifiOnImg,0,0,512,512,this.x + 10,this.y - 80,100,100);
     }
 	
 }

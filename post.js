@@ -6,6 +6,7 @@ function Post(x,y){
 
 	this.show = function(){
 		image(postLightImg,0,0,56,298,this.x,this.y,56,298);
+		image(wifiOnImg,0,0,512,512,this.x,this.y - 70,100,100);
 		if(this.light === true){
 			fill(255,204,0);
 			ellipse(this.x + 30,this.y + 20,100,100); //Se dibuja un circulo

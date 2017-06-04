@@ -11,6 +11,7 @@ function Bombero(x,y){
 	this.show = function(){
 		//imageMode(CENTER);
 		image(bomberoImg,0,0,355,127,this.x,this.y,355,127);
+		image(wifiOnImg,0,0,512,512,this.x + 10,this.y - 80,100,100);
 		noFill();
 		stroke(255,0,0);
 		//rectMode(CENTER);

@@ -13,6 +13,7 @@ function Ambulance(x,y){
 	
 	this.show = function(){
         image(ambulanceImg,0,0,138,90,this.x,this.y,138,90);
+        image(wifiOnImg,0,0,512,512,this.x + 10,this.y - 80,100,100);
     }
 	
 }

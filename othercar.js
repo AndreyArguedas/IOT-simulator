@@ -17,6 +17,7 @@ function OtherCar(x,y){
 
 	this.show = function(){
 		image(othercarImg,0,100,this.w,this.h,this.x,this.y,this.w,this.h);
+		image(wifiOnImg,0,0,512,512,this.x + 10,this.y - 80,100,100);
 		noFill();
 		stroke(255,0,0);
 		rect(this.x,this.y,this.w,this.h);

@@ -68,6 +68,9 @@ var detenerConductor = false;
 var mostrarPapeles = false;
 var ac; //Varaible para el aire acondicionado
 var dronImg;
+var wifiscenario1 = []; //Los wifis de la ciudad 1 y 5
+var wifiscenario3 = []; //Los wifis de la ciudad 3
+var wifiscenario6 = []; //Los wifis de la ciudad 3
 
 function preload(){
   city1 = loadImage("images/city1.jpg");
@@ -129,6 +132,7 @@ function setup(){
   policeman = new Policeman(1800,550);
   dron = new Dron(1500,50);
   ac = 21;
+  wifi1();wifi3();wifi6();
   background(255);
 }
 
@@ -141,6 +145,12 @@ function draw(){ //Esto es un while que dibuja en pantalla cada 60 milisegundos,
   dron.show(car);
   ac = dron.update(car,scenario.level);
 	ocultarModal("myMessage");
+
+  if(scenario.level === 1 || scenario.level === 5){
+    for(var i = 0; i < wifiscenario1.length; i++)
+        wifiscenario1[i].show(car);
+  }
+
   if(scenario.level === 2 && p1.alive === true){
     p1.show(car.x,2);
     p1.move();
@@ -153,6 +163,11 @@ function draw(){ //Esto es un while que dibuja en pantalla cada 60 milisegundos,
       mostrarModal("myModal", "Ha ocurrido un accidente", "Mediante el sensor de choques de su automovil se ha detectado una colision, mediante la computadora de su auto se ha alertado al 911, los cuales llegaran enseguida." + "<br>" + "<img src='images/ambulancia.png'></img>");
     }
 	
+  }
+
+  if(scenario.level === 3){
+    for(var i = 0; i < wifiscenario3.length; i++)
+        wifiscenario3[i].show(car);
   }
 
 	if(scenario.level === 4){
@@ -352,6 +367,8 @@ function draw(){ //Esto es un while que dibuja en pantalla cada 60 milisegundos,
   }
 
   if(scenario.level === 6){
+    for(var i = 0; i < wifiscenario6.length; i++)
+        wifiscenario6[i].show(car);
     parking.show(car);
     var d = dist(parking.x,parking.y,car.x,car.y);
     a1.distParking(Math.floor(d) / 100);
@@ -474,7 +491,24 @@ function mostrarModal(idDiv ,titulo, mensaje){
      $("#"+idDiv+"Title").html(titulo);
      $("#"+idDiv+"Message").html(mensaje);
  }
+
+ function wifi1(){
+    wifiscenario1.push(new wifiScenario(600,300));
+    wifiscenario1.push(new wifiScenario(1300,400));
+    wifiscenario1.push(new wifiScenario(2000,100));
+    wifiscenario1.push(new wifiScenario(3000,280));
+ }
+
+ function wifi3(){
+    wifiscenario3.push(new wifiScenario(825,270));
+    wifiscenario3.push(new wifiScenario(2000,390));
+ }
  
+  function wifi6(){
+    wifiscenario6.push(new wifiScenario(1725,270));
+    wifiscenario6.push(new wifiScenario(2425,370));
+    //wifiscenario6.push(new wifiScenario(2000,390));
+ }
  
  
  
